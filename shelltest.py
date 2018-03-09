@@ -1,4 +1,6 @@
 import os
-import commands
-var1, var2 = commands.getstatusoutput('adb devices')
-print var1, var2
+import sys
+from subprocess import getoutput
+a = getoutput("adb devices")
+print ("无设备连接：",a,)
+
