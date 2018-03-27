@@ -1,11 +1,15 @@
 from urllib import request
 from urllib import parse
 import json
+import hashlib
+import time
+import random
 
 if __name__ == "__main__" :
+    content = input('Please input the word:')
     Request_URL = "http://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule"
     From_Data = {}
-    From_Data['i'] = "你好"
+    From_Data['i'] = content
     From_Data['from'] = "AUTO"
     From_Data['to'] = "AUTO"
     From_Data['smartresult'] = "dict"
