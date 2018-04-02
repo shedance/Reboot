@@ -14,7 +14,7 @@ bs = BeautifulSoup(resp, 'html.parser')
 #bs = BeautifulSoup(html)
 
 #格式化输出print
-#print (bs.prettify())
+print (bs.prettify())
 
 #beautifulsoup将复杂的html文档转换为树形结构，每一个节点都是一个对象这些对象可以归纳为
 
