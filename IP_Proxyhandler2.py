@@ -20,5 +20,3 @@ if __name__=="__main__":
     #读取相应访问的网址信息并解码
     html = response.read().decode('utf-8')
     print (html)
-
-

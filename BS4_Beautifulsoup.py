@@ -1,5 +1,9 @@
+import sys
+print(sys.path)
 from bs4 import BeautifulSoup
 from urllib import request
+
+
 
 #创建实例
 url = "https://www.jianshu.com/p/78cb574a2750"
