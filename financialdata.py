@@ -1,6 +1,7 @@
 import pymysql
 import requests
 import re
+import time
 from bs4 import BeautifulSoup
 
 if __name__ == "__main__":
@@ -95,8 +96,17 @@ if __name__ == "__main__":
     }
 
     #url爬取的地址
-    url = 'http://quotes.money.163.com/hkstock/cwsj_00700.html'
+    code = input("请输入股票代码：")
+    url = 'http://quotes.money.163.com/hkstock/cwsj_{}.html'.format(code)
+    #print(url)
+    #url = 'http://quotes.money.163.com/hkstock/cwsj_00700.html'
     req = requests.get(url = url, headers = headers)
+    res = req.status_code
+    res2 = str(res)
+    if re.match('20',res2)==None:
+        print("股票代码错误，查无此股票代码！请重新输入")
+        time.sleep(3)
+        exit()
     req.encoding = 'utf-8'
     html = req.text
     html2 = req.content
@@ -108,7 +118,7 @@ if __name__ == "__main__":
     code = bs.find_all('span',class_='code')[0].string
     code2 = bs.find_all('span', class_='code')[0].string
 
-    print (type(code2))
+    #print (type(code2))
     #将BeautifulSoup得到的NavigableString类型转为Str类型或者Int,根据情况而定
     nStr = ""
     nStr =nStr.join(code2)
@@ -118,10 +128,10 @@ if __name__ == "__main__":
     #怎么去掉括号？？？？？？
     code3 = re.sub('[\s+\.\!\/_,$%^*(+\"\')]+|[+——()?【】“”！，。？、~@#￥%……&*（）]+','',pNumr)
 
-    print('去掉括号了吗？：',code3)
+    #print('去掉括号了吗？：',code3)
     #打印股票信息
     print(name + ':' + code)
-    print('')
+    #print('')
     #存储各个表名的列表数据
     table_name_list = []
     table_date_list =[]
@@ -144,8 +154,13 @@ if __name__ == "__main__":
     #print("table_name_list是：",table_name_list)
     #print(len(table_name_list))
     for i in range(len(table_name_list)):
-        print('表名',table_name_list[i])
+        #print('表名',table_name_list[i])
         print(' ')
+        #print("表格为空",table_date_list[i])
+        if len(table_date_list[i])== 0:
+            print("该股票暂无财务数据！\n因此无数据录入到数据库中。")
+            time.sleep(3)
+            exit()
 
         #获取数据地址
         url2 = 'http://quotes.money.163.com/hk/service/cwsj_service.php?symbol={}&start={}&end={}&type={}&unit=yuan'.format(code3,table_date_list[i][-1],table_date_list[i][0],url_list[i])
