@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 if __name__ == "__main__":
     #Mysql数据库连接：host + port + user + passwd+ db数据库名+charset编码格式
 
-    conn = pymysql.connect(host='127.0.0.1', port = 3306, user = 'root',passwd = 'merci1234',db = 'financialdata',charset = 'UTF8')
+    conn = pymysql.connect(host='127.0.0.1', port = 3306, user = 'root',passwd = '*******',db = 'financialdata',charset = 'UTF8')
     #使用cursor（）方法获取操作游标
     cursor = conn.cursor()
 
