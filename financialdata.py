@@ -4,10 +4,11 @@ import re
 import time
 from bs4 import BeautifulSoup
 
+
 if __name__ == "__main__":
     #Mysql数据库连接：host + port + user + passwd+ db数据库名+charset编码格式
 
-    conn = pymysql.connect(host='127.0.0.1', port = 3306, user = 'root',passwd = '*******',db = 'financialdata',charset = 'UTF8')
+    conn = pymysql.connect(host='127.0.0.1', port = 3306, user = 'root',passwd = 'merci1234',db = 'financialdata',charset = 'UTF8')
     #使用cursor（）方法获取操作游标
     cursor = conn.cursor()
 
@@ -101,7 +102,7 @@ if __name__ == "__main__":
     #print(url)
     #url = 'http://quotes.money.163.com/hkstock/cwsj_00700.html'
     req = requests.get(url = url, headers = headers)
-    res = req.status_code
+    res = req.status_code#获取网页响应的状态码
     res2 = str(res)
     if re.match('20',res2)==None:
         print("股票代码错误，查无此股票代码！请重新输入")
@@ -153,7 +154,9 @@ if __name__ == "__main__":
     #插入信息
     #print("table_name_list是：",table_name_list)
     #print(len(table_name_list))
+
     for i in range(len(table_name_list)):
+
         #print('表名',table_name_list[i])
         print(' ')
         #print("表格为空",table_date_list[i])
@@ -169,6 +172,7 @@ if __name__ == "__main__":
         print (url2)
         #print('url_list这是什么：',url_list)
         value_dict = {}
+
         for each_data in req_table.json():
             value_dict['股票名'] = name
             value_dict['股票代码'] = code3
@@ -205,16 +209,20 @@ if __name__ == "__main__":
             for key, value in value_dict.items():
                 if key not in ['股票名','股票代码','报表日期']:
                     #sql语句注意` `和''的使用差别
-                    sql2 = "UPDATE %s SET `%s`='%s' WHERE `股票名`='%s' AND `报表日期`='%s'"%(url_list[i],key,value,pNumr1,pNumr2)
-                    print(sql2)
+                    #sql2 = "UPDATE %s SET `%s`='%s' WHERE `股票名`='%s' AND `报表日期`='%s'"%(url_list[i],key,value,pNumr1,pNumr2)
+                    #sql3 = "if not exists(select * from %s)? insert into %s values %s else update %s set update_time = getdate() where %s = %s"%(url_list[i],key,value,url_list[i],key,value)
+                    sql4 = "UPDATE %s SET `%s`='%s' WHERE `股票名`='%s' AND `报表日期`='%s'"%(url_list[i],key,value,pNumr1,pNumr2)
+                    print(sql4)
                     try:
-                        cursor.execute(sql2)
+                        cursor.execute(sql4)
                         #执行sql语句
                         conn.commit()
                     except:
                         #发生错误时回滚
                         conn.rollback()
-                value_dict ={}
+                #value_dict ={}
+
+
                 #print(value_dict)
 
     #关闭数据库连接

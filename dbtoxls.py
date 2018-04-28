@@ -1,5 +1,7 @@
 import pymysql
 import xlwt
+from ShowProcess import ShowProcess
+import time
 
 def dbconnect(passwd):
     conn = pymysql.connect(host='127.0.0.1',port=3306,user='root',passwd=passwd,db='financialdata',charset='utf8')
@@ -31,15 +33,22 @@ if __name__=="__main__":
     #print("fileds===========\n",fileds)
     result = cursor.fetchall()
     #print("==========\n",result)
+    print(len(result))
     #写入字段到sheet中数据库中的字段写入到excel表的第一行中
     for i in range(0,len(fileds)):
         sheet1.write(0,i,fileds[i][0])
-     #写入sql查询到数据从excel的第二行开始进行写入
-    for row in range(1,len(result)+1):
-       for col in range(0,len(fileds)):
-           sheet1.write(row,col,result[row-1][col])
+
+    # 写入sql查询到数据从excel的第二行开始进行写入
+    max_steps = len(result)
+    process_bar =ShowProcess(max_steps)
+    for row in range(1, len(result) + 1):
+        for col in range(0,len(fileds)):
+            sheet1.write(row,col,result[row-1][col])
+        process_bar.show_process()
+        time.sleep(0.01)
     # 数据写入完成后保存excel
     wbk.save(file_path)
+    process_bar.close("完成")
     file.close()
     print("完成数据导出至'%s'"%file_path)
 

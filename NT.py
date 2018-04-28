@@ -7,9 +7,9 @@ class jisuanqi(unittest.TestCase):
     #执行用例前准备测试环境
     def setUp(self):
         desired_caps = {
-            "deviceName": "emulator-5554",
+            "deviceName": "192.168.209.102:5555",
             "platformName": "Android",
-            "platformVersion": "4.4",
+            "platformVersion": "6.0",
             "appPackage": "com.android.calculator2",
             "appActivity": "com.android.calculator2.Calculator"
         }
