@@ -20,7 +20,7 @@ gouwuche_name=[]
 gouwuche_jiage=[]
 gouwuche_jiage_fail=[]
 gouwuche_name_fail=[]
-m_id=[]
+#m_id=[]
 s=0
 while 1:
     m=input("输入购买商品ID>>:")
@@ -28,9 +28,9 @@ while 1:
         break
     else:
         m=int(m)
-        m_id.append(m)
+        #m_id.append(m)
         i=m-1
-        if i>=len(name):
+        if i>=len(name) or i<=-1:
             print("**商品ID不存在")
         else:
             all_sccess = all_sccess + jiage[i]
